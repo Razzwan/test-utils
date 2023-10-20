@@ -1,6 +1,5 @@
 import {Address, Cell, Slice, Transaction} from '@ton/core';
 import { CompareResult } from "./interface";
-import {FlatTransaction} from './transaction';
 
 export function compareCellForTest(subject: any, cmp: Cell): CompareResult {
     return {
@@ -51,7 +50,7 @@ export function gasUsageForTest(subject: any, cmp: bigint, accuracy: bigint = 2n
     const [gas, pass] = gasCompare(subject, cmp, accuracy);
     return {
         pass,
-        posMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${gas}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
-        negMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${gas}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
+        posMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected ${gas} to equal ${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
+        negMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected ${gas} NOT to equal ${cmp}${accuracy === 0n ? '' : `±${accuracy}`} but it does`).bind(undefined, subject, cmp, accuracy),
     }
 }
