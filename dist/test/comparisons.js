@@ -41,17 +41,18 @@ function gasCompare(messageResult, toCompare, accuracy = 2n) {
     const gas = gasUsage(messageResult);
     if (gas >= toCompare - accuracy) {
         if (gas <= toCompare + accuracy) {
-            return true;
+            return [gas, true];
         }
     }
-    return false;
+    return [gas, false];
 }
 exports.gasCompare = gasCompare;
 function gasUsageForTest(subject, cmp, accuracy = 2n) {
+    const [gas, pass] = gasCompare(subject, cmp, accuracy);
     return {
-        pass: gasCompare(subject, cmp, accuracy),
-        posMessage: ((subject, cmp, accuracy) => `Expected\n${subject}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
-        negMessage: ((subject, cmp, accuracy) => `Expected\n${subject}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
+        pass,
+        posMessage: ((subject, cmp, accuracy) => `Expected\n${gas}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
+        negMessage: ((subject, cmp, accuracy) => `Expected\n${gas}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
     };
 }
 exports.gasUsageForTest = gasUsageForTest;

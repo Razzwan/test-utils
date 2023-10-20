@@ -39,19 +39,20 @@ export function gasUsage(messageResult: any): bigint {
 
 }
 
-export function gasCompare(messageResult: any, toCompare: bigint, accuracy: bigint = 2n): boolean {
+export function gasCompare(messageResult: any, toCompare: bigint, accuracy: bigint = 2n): [bigint, boolean] {
     const gas = gasUsage(messageResult);
     if (gas >= toCompare - accuracy) {
         if (gas <= toCompare + accuracy) {
-            return true;
+            return [gas, true];
         }
     }
-    return false;
+    return [gas, false];
 }
 export function gasUsageForTest(subject: any, cmp: bigint, accuracy: bigint = 2n): CompareResult {
+    const [gas, pass] = gasCompare(subject, cmp, accuracy);
     return {
-        pass: gasCompare(subject, cmp, accuracy),
-        posMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${subject}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
-        negMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${subject}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
+        pass,
+        posMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${gas}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
+        negMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${gas}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
     }
 }
