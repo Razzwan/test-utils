@@ -1,5 +1,6 @@
-import { Address, Cell, Slice } from "@ton/core";
+import {Address, Cell, Slice, Transaction} from '@ton/core';
 import { CompareResult } from "./interface";
+import {FlatTransaction} from './transaction';
 
 export function compareCellForTest(subject: any, cmp: Cell): CompareResult {
     return {
@@ -28,7 +29,7 @@ export function compareSliceForTest(subject: any, cmp: Slice): CompareResult {
 
 export function gasUsage(messageResult: any): bigint {
     try {
-        return messageResult.transactions.reduce((gas, tx) => {
+        return messageResult.transactions.reduce((gas: bigint, tx: Transaction) => {
             return gas + tx.totalFees.coins;
         }, 0n)
     } catch (e) {

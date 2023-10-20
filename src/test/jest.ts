@@ -50,7 +50,7 @@ declare global {
             toEqualCell(cell: Cell): R
             toEqualAddress(address: Address): R
             toEqualSlice(slice: Slice): R
-            toApproxGasUsage(gasUsage: bigint, accuracy?: bigint)
+            toApproxGasUsage(gasUsage: bigint, accuracy?: bigint): R
         }
     }
 }
