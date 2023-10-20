@@ -28,7 +28,7 @@ export function compareSliceForTest(subject: any, cmp: Slice): CompareResult {
 
 export function gasUsage(messageResult: any): bigint {
     try {
-        const transactions = messageResult.transactions ?? Array.isArray(messageResult) ? messageResult : [messageResult];
+        const transactions = Array.isArray(messageResult.transactions) ? messageResult.transactions : (Array.isArray(messageResult) ? messageResult : [messageResult]);
         return transactions.reduce((gas: bigint, tx: Transaction) => {
             return gas + tx.totalFees.coins;
         }, 0n)

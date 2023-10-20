@@ -27,7 +27,7 @@ function compareSliceForTest(subject, cmp) {
 exports.compareSliceForTest = compareSliceForTest;
 function gasUsage(messageResult) {
     try {
-        const transactions = messageResult.transactions ?? Array.isArray(messageResult) ? messageResult : [messageResult];
+        const transactions = Array.isArray(messageResult.transactions) ? messageResult.transactions : (Array.isArray(messageResult) ? messageResult : [messageResult]);
         return transactions.reduce((gas, tx) => {
             return gas + tx.totalFees.coins;
         }, 0n);
