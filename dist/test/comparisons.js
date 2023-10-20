@@ -27,13 +27,13 @@ function compareSliceForTest(subject, cmp) {
 exports.compareSliceForTest = compareSliceForTest;
 function gasUsage(messageResult) {
     try {
-        return messageResult.transactions.reduce((gas, tx) => {
+        const transactions = messageResult.transactions ?? Array.isArray(messageResult) ? messageResult : [messageResult];
+        return transactions.reduce((gas, tx) => {
             return gas + tx.totalFees.coins;
         }, 0n);
     }
     catch (e) {
-        console.info("Compared object is not SendMessageResult");
-        return 0n;
+        throw new Error("Compared object is not SendMessageResult nor transaction(s)");
     }
 }
 exports.gasUsage = gasUsage;

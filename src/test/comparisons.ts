@@ -29,14 +29,13 @@ export function compareSliceForTest(subject: any, cmp: Slice): CompareResult {
 
 export function gasUsage(messageResult: any): bigint {
     try {
-        return messageResult.transactions.reduce((gas: bigint, tx: Transaction) => {
+        const transactions = messageResult.transactions ?? Array.isArray(messageResult) ? messageResult : [messageResult];
+        return transactions.reduce((gas: bigint, tx: Transaction) => {
             return gas + tx.totalFees.coins;
         }, 0n)
     } catch (e) {
-        console.info("Compared object is not SendMessageResult");
-        return 0n
+        throw new Error("Compared object is not SendMessageResult nor transaction(s)");
     }
-
 }
 
 export function gasCompare(messageResult: any, toCompare: bigint, accuracy: bigint = 2n): [bigint, boolean] {
