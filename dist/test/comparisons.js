@@ -50,8 +50,8 @@ exports.gasCompare = gasCompare;
 function gasUsageForTest(subject, cmp, accuracy = 2n) {
     return {
         pass: gasCompare(subject, cmp, accuracy),
-        posMessage: ((subject, cmp, accuracy) => `Expected\ngas usage of message transactions\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
-        negMessage: ((subject, cmp, accuracy) => `Expected\ngas usage of message transactions\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
+        posMessage: ((subject, cmp, accuracy) => `Expected\n${subject}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
+        negMessage: ((subject, cmp, accuracy) => `Expected\n${subject}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
     };
 }
 exports.gasUsageForTest = gasUsageForTest;

@@ -51,7 +51,7 @@ export function gasCompare(messageResult: any, toCompare: bigint, accuracy: bigi
 export function gasUsageForTest(subject: any, cmp: bigint, accuracy: bigint = 2n): CompareResult {
     return {
         pass: gasCompare(subject, cmp, accuracy),
-        posMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\ngas usage of message transactions\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
-        negMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\ngas usage of message transactions\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
+        posMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${subject}\nto equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}`).bind(undefined, subject, cmp, accuracy),
+        negMessage: ((subject: any, cmp: bigint, accuracy?: bigint) => `Expected\n${subject}\nNOT to equal\n${cmp}${accuracy === 0n ? '' : `±${accuracy}`}\nbut it does`).bind(undefined, subject, cmp, accuracy),
     }
 }
